@@ -1,0 +1,15 @@
+/home/node/.openclaw/workspace/test-e58313f/Test/backend/src/main/java/com/example/authbackend/config/SecurityConfig.java
+/home/node/.openclaw/workspace/test-e58313f/Test/backend/src/main/java/com/example/authbackend/dto/RegisterRequest.java
+/home/node/.openclaw/workspace/test-e58313f/Test/backend/src/main/java/com/example/authbackend/controller/AuthController.java
+/home/node/.openclaw/workspace/test-e58313f/Test/backend/src/main/java/com/example/authbackend/service/AuthService.java
+/home/node/.openclaw/workspace/test-e58313f/Test/backend/src/main/java/com/example/authbackend/security/JwtAuthenticationFilter.java
+/home/node/.openclaw/workspace/test-e58313f/Test/backend/src/main/java/com/example/authbackend/dto/RegisterResponse.java
+/home/node/.openclaw/workspace/test-e58313f/Test/backend/src/main/java/com/example/authbackend/security/UserDetailsServiceImpl.java
+/home/node/.openclaw/workspace/test-e58313f/Test/backend/src/main/java/com/example/authbackend/dto/LoginRequest.java
+/home/node/.openclaw/workspace/test-e58313f/Test/backend/src/main/java/com/example/authbackend/exception/ConflictException.java
+/home/node/.openclaw/workspace/test-e58313f/Test/backend/src/main/java/com/example/authbackend/dto/LoginResponse.java
+/home/node/.openclaw/workspace/test-e58313f/Test/backend/src/main/java/com/example/authbackend/exception/GlobalExceptionHandler.java
+/home/node/.openclaw/workspace/test-e58313f/Test/backend/src/main/java/com/example/authbackend/AuthBackendApplication.java
+/home/node/.openclaw/workspace/test-e58313f/Test/backend/src/main/java/com/example/authbackend/entity/User.java
+/home/node/.openclaw/workspace/test-e58313f/Test/backend/src/main/java/com/example/authbackend/security/JwtUtils.java
+/home/node/.openclaw/workspace/test-e58313f/Test/backend/src/main/java/com/example/authbackend/repository/UserRepository.java
