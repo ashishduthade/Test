@@ -1,18 +1,36 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { api } from "@/lib/api";
 
 export default function SignupPage() {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Mount guard — prevents hydration mismatch from localStorage reads during SSR
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // If already logged in, redirect away from signup
+  useEffect(() => {
+    if (!mounted) return;
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.replace("/dashboard");
+    }
+  }, [mounted, router]);
+
+  // Don't render anything until mounted to avoid hydration mismatch
+  if (!mounted) return null;
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();

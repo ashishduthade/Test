@@ -6,9 +6,17 @@ import type { User } from "@/lib/api";
 
 export default function DashboardPage() {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
+  // Mount guard — prevents hydration mismatch from localStorage reads during SSR
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Auth check — only runs after mount (client-side only)
+  useEffect(() => {
+    if (!mounted) return;
     const token = localStorage.getItem("token");
     const stored = localStorage.getItem("user");
     if (!token || !stored) {
@@ -20,7 +28,7 @@ export default function DashboardPage() {
     } catch {
       router.replace("/auth/login");
     }
-  }, [router]);
+  }, [mounted, router]);
 
   function handleLogout() {
     localStorage.removeItem("token");
@@ -28,7 +36,8 @@ export default function DashboardPage() {
     router.push("/auth/login");
   }
 
-  if (!user) {
+  // Show nothing until mounted, then show loading until user is resolved
+  if (!mounted || !user) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-gray-50">
         <p className="text-gray-400">Loading…</p>

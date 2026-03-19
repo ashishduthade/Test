@@ -7,18 +7,30 @@ import { api } from "@/lib/api";
 
 export default function LoginPage() {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // If already logged in, skip to dashboard
+  // Mount guard — localStorage is not available during SSR.
+  // Without this, reading localStorage on initial render causes a hydration
+  // mismatch between server HTML and client state, producing flicker.
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Auth redirect — only runs after mount (client-side only)
+  useEffect(() => {
+    if (!mounted) return;
     const token = localStorage.getItem("token");
     if (token) {
       router.replace("/dashboard");
     }
-  }, [router]);
+  }, [mounted, router]);
+
+  // Don't render anything until mounted to avoid hydration mismatch
+  if (!mounted) return null;
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
