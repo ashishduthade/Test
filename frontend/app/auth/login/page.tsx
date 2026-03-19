@@ -1,26 +1,16 @@
 "use client";
 
-import { useState, FormEvent, useEffect, useRef } from "react";
+import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { api } from "@/lib/api";
 
 export default function LoginPage() {
   const router = useRouter();
-  const routerRef = useRef(router);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // If already logged in, redirect to dashboard — runs once on mount only.
-  // router captured via ref to avoid infinite re-render loop.
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      routerRef.current.replace("/dashboard");
-    }
-  }, []);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();

@@ -7,26 +7,30 @@ import type { User } from "@/lib/api";
 export default function DashboardPage() {
   const router = useRouter();
   const routerRef = useRef(router);
+  const hasRedirected = useRef(false);
   const [user, setUser] = useState<User | null>(null);
   const [checked, setChecked] = useState(false);
 
   // Auth check — runs once on mount only.
-  // router is captured via ref so it never appears in the dep array,
-  // preventing the "Maximum update depth exceeded" infinite loop caused
-  // by useRouter() returning a new object reference on every render.
+  // hasRedirected ref guards against React 18 Strict Mode double-invocation
+  // which would otherwise call replace() twice and trigger Chrome's
+  // "Throttling navigation" warning.
   useEffect(() => {
+    if (hasRedirected.current) return;
     const token = localStorage.getItem("token");
     const stored = localStorage.getItem("user");
     if (!token || !stored) {
+      hasRedirected.current = true;
       routerRef.current.replace("/auth/login");
       return;
     }
     try {
       setUser(JSON.parse(stored) as User);
+      setChecked(true);
     } catch {
+      hasRedirected.current = true;
       routerRef.current.replace("/auth/login");
     }
-    setChecked(true);
   }, []);
 
   function handleLogout() {
