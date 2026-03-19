@@ -1,33 +1,26 @@
 "use client";
 
-import { useState, FormEvent, useEffect } from "react";
+import { useState, FormEvent, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { api } from "@/lib/api";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
+  const routerRef = useRef(router);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Mount guard — localStorage is not available during SSR.
-  // Without this, reading localStorage on initial render causes a hydration
-  // mismatch between server HTML and client state, producing flicker.
+  // If already logged in, redirect to dashboard — runs once on mount only.
+  // router captured via ref to avoid infinite re-render loop.
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Auth redirect — only runs after mount (client-side only)
-  useEffect(() => {
-    if (!mounted) return;
     const token = localStorage.getItem("token");
     if (token) {
-      router.replace("/dashboard");
+      routerRef.current.replace("/dashboard");
     }
-  }, [mounted, router]);
+  }, []);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
