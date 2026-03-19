@@ -29,9 +29,6 @@ export default function LoginPage() {
     }
   }, [mounted, router]);
 
-  // Don't render anything until mounted to avoid hydration mismatch
-  if (!mounted) return null;
-
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError("");
